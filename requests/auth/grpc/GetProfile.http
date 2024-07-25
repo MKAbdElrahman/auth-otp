@@ -1,0 +1,7 @@
+### Get Profile
+POST http://localhost:5000/auth.v1.AuthService/GetProfile
+Content-Type: application/json
+
+{
+  "phone": "+201148985854"
+}

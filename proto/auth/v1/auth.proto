@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package auth.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "midaslabs/gen/auth/v1;authv1";
+
+
+service AuthService {
+  rpc SignUpWithPhoneNumber(SignUpWithPhoneNumberRequest) returns (SignUpWithPhoneNumberResponse);
+  rpc VerifyPhoneNumber(VerifyPhoneNumberRequest) returns (VerifyPhoneNumberResponse);
+  rpc LoginInitiate(LoginInitiateRequest) returns (LoginInitiateResponse);
+  rpc ValidatePhoneNumberLogin(ValidatePhoneNumberLoginRequest) returns (ValidatePhoneNumberLoginResponse);
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse);
+}
+
+message ResponseStatus {
+  bool success = 1;
+  string message = 2;
+  string error_code = 3;
+}
+
+message SignUpWithPhoneNumberRequest {
+  string phone = 1;
+}
+
+message SignUpWithPhoneNumberResponse {
+  ResponseStatus status = 1;
+}
+
+message VerifyPhoneNumberRequest {
+  string phone = 1;
+  string otp = 2;
+}
+
+message VerifyPhoneNumberResponse {
+  ResponseStatus status = 1;
+}
+
+message LoginInitiateRequest {
+  string phone = 1;
+}
+
+message LoginInitiateResponse {
+  ResponseStatus status = 1;
+}
+
+message ValidatePhoneNumberLoginRequest {
+  string phone = 1;
+  string otp = 2;
+}
+
+message ValidatePhoneNumberLoginResponse {
+  ResponseStatus status = 1;
+}
+
+message GetProfileRequest {
+  string phone = 1;
+}
+
+message GetProfileResponse {
+  ResponseStatus status = 1;
+  ProfileData profile_data = 2;
+}
+
+
+message ProfileData {
+    string phone_number = 1;
+    bool verified = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp updated_at = 4;
+}

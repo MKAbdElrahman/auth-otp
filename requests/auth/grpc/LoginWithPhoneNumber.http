@@ -1,0 +1,7 @@
+### Login Initiate
+POST http://localhost:5000/auth.v1.AuthService/LoginInitiate
+Content-Type: application/json
+
+{
+  "phone": "+201048985854"
+}

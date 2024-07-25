@@ -1,0 +1,7 @@
+### Get Profile
+POST http://localhost:4000/profile
+Content-Type: application/json
+
+{
+  "phone": "+201148985857"
+}

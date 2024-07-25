@@ -1,0 +1,68 @@
+version: 3
+
+dotenv: ['.env']
+
+tasks:
+
+  # DEPS
+  deps-install:
+      deps: [ migrate-install, grpcconnect-install]
+  migrate-install: go install -tags "postgres,mysql,sqlite" github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+  grpcconnect-install: 
+    cmds:
+      - go install github.com/bufbuild/buf/cmd/buf@latest
+      - go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+      - go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+      - go install connectrpc.com/connect/cmd/protoc-gen-connect-go@latest
+
+  # COMPOSE
+  up: docker compose up -d 
+  down: docker compose down  && sudo rm -rf .postgres_data && sudo rm -rf .rabbitmq_data 
+  psql: docker exec -it $POSTGRES_CONTAINER_NAME psql -U $POSTGRES_USER -d $POSTGRES_DB
+  
+  ## AUTH
+
+  run-auth: go run ./microservices/auth/api
+
+  ## OTP
+
+  run-otp: go run ./microservices/otp/api
+
+
+  ## PROTO
+
+  proto:
+    cmds:
+      - buf lint
+      - buf build
+      - buf generate
+
+
+  # MIGRATE
+  
+  migrate-new:
+    desc: task migrate -- [migration_pair_name]
+    cmds:
+      - migrate create -seq -ext=.sql -dir=$AUTH_MIGRATIONS_DIR {{.CLI_ARGS}}
+
+  migrate-up:
+    desc: execute migrations
+    cmds:
+      - migrate -path=$AUTH_MIGRATIONS_DIR -database=$POSTGRESQL_URL up
+  migrate-down:
+    desc: down all migrations
+    cmds:
+      - migrate -path=$AUTH_MIGRATIONS_DIR -database=$POSTGRESQL_URL down
+  migrate-goto:
+    desc: migrate to a specific version
+    cmds:
+      - migrate -path=$AUTH_MIGRATIONS_DIR -database=$POSTGRESQL_URL  goto {{.CLI_ARGS}}
+  migrate-force:
+    desc: used for fixing errors in SQL migrations
+    cmds:
+      - migrate -path=$AUTH_MIGRATIONS_DIR -database=$POSTGRESQL_URL force {{.CLI_ARGS}}
+
+  migrate-version:
+    desc: show current version
+    cmds:
+      - migrate -path=$AUTH_MIGRATIONS_DIR -database=$POSTGRESQL_URL version

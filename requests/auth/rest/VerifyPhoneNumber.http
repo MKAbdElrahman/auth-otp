@@ -1,0 +1,8 @@
+### Verify Phone Number
+POST http://localhost:4000/signup/verify
+Content-Type: application/json
+
+{
+  "phone": "+201148985854",
+  "otp": "55def641"  
+}

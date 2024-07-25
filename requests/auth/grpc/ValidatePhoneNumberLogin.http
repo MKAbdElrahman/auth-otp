@@ -1,0 +1,8 @@
+### Login with Phone Number and OTP
+POST http://localhost:5000/auth.v1.AuthService/ValidatePhoneNumberLogin
+Content-Type: application/json
+
+{
+  "phone": "+201148985854",
+  "otp": "978fd55d" 
+}

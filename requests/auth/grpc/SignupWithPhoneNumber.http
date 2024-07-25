@@ -1,0 +1,7 @@
+### Signup with Phone Number
+POST http://localhost:5000/auth.v1.AuthService/SignUpWithPhoneNumber
+Content-Type: application/json
+
+{
+  "phone": "+201148985857"
+}

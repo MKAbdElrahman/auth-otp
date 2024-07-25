@@ -1,0 +1,7 @@
+### Login Initiate
+POST http://localhost:4000/login/initiate
+Content-Type: application/json
+
+{
+  "phone": "+201148985857"
+}

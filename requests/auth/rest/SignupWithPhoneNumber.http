@@ -1,0 +1,7 @@
+### Signup with Phone Number
+POST http://localhost:4000/signup
+Content-Type: application/json
+
+{
+  "phone": "+201148985854"
+}

@@ -1,0 +1,8 @@
+### Login with Phone Number and OTP
+POST http://localhost:4000/login/complete
+Content-Type: application/json
+
+{
+  "phone": "+201148985857",
+  "otp": "4dfa9f3a" 
+}
